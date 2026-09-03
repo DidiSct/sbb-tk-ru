@@ -1,0 +1,21 @@
+{
+  "name": "SBB TK Ruhul Ukhuwwah — Sistem Manajemen Sekolah",
+  "short_name": "SBB TK RU",
+  "description": "Aplikasi manajemen sekolah TK: data siswa, absensi, pembayaran SPP, tumbuh kembang anak, dan portal orang tua.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./index.html",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#FAF6EC",
+  "theme_color": "#123F34",
+  "orientation": "any",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
