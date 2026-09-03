@@ -4,21 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SBB TK Ruhul Ukhuwwah — Sistem Manajemen Sekolah</title>
-<!-- ============================= PWA (Progressive Web App) =============================
-     Membuat aplikasi bisa "dipasang" (Add to Home Screen / Install) di HP/laptop
-     dan tetap bisa dibuka meski koneksi internet terputus (app shell sudah
-     tersimpan di cache browser). Agar fitur ini AKTIF, index.html, manifest.json,
-     sw.js, dan folder icons/ harus diunggah bersama ke hosting HTTPS (atau
-     dijalankan di localhost) — browser tidak mengizinkan Service Worker berjalan
-     saat halaman dibuka langsung dari file lokal (protokol file://). -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#123F34">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1F6F5C">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png" type="image/png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SBB TK RU">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="SI TK">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
@@ -133,12 +125,6 @@ nav.menu{ padding:14px 12px; flex:1; overflow-y:auto; }
   background:var(--primary-tint); color:var(--primary-dark);
   padding:8px 14px; border-radius:99px; font-size:13px; font-weight:600;
 }
-.offline-pill{
-  background:#FBE7E1; color:var(--danger);
-  padding:7px 13px; border-radius:99px; font-size:12px; font-weight:700;
-  display:flex; align-items:center; gap:6px;
-}
-.offline-pill::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--danger); }
 .hamburger{ display:none; background:none;border:none;cursor:pointer;padding:6px; }
 .hamburger svg{ width:24px;height:24px; }
 
@@ -295,33 +281,6 @@ tbody tr:hover{ background:var(--surface-soft); }
 .pill-select button{ border:1px solid var(--line); background:#fff; border-radius:99px; padding:6px 11px; font-size:11.5px; font-weight:600; color:var(--ink-soft); cursor:pointer; }
 .pill-select button.sel{ background:var(--primary); border-color:var(--primary); color:#fff; }
 
-/* ---------- chip kategori tumbuh kembang (kustom) ---------- */
-.aspek-chip{
-  display:inline-flex; align-items:center; gap:7px;
-  background:var(--primary-tint); color:var(--primary-dark);
-  border-radius:99px; padding:6px 8px 6px 13px; font-size:12px; font-weight:600;
-}
-.aspek-chip button{
-  border:none; background:rgba(18,63,52,.14); color:inherit; width:17px; height:17px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; line-height:1; padding:0;
-}
-.aspek-chip button:hover{ background:rgba(18,63,52,.28); }
-.aspek-chip-empty{ font-size:12.5px; color:var(--ink-soft); }
-
-/* ---------- rekap kehadiran (dashboard) ---------- */
-.rekap-row{ display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--line); border-radius:12px; margin-bottom:8px; }
-.rekap-row .row-name{ flex:1; min-width:0; }
-.rekap-row .row-name .n{ font-weight:700; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.rekap-row .rank{
-  width:26px; height:26px; border-radius:50%; background:var(--surface-soft); color:var(--ink-soft);
-  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0;
-}
-.rekap-row .pct-wrap{ text-align:right; flex-shrink:0; }
-.rekap-row .pct{ font-family:'Fraunces',serif; font-size:17px; font-weight:600; }
-.rekap-row .pct-sub{ font-size:10.5px; color:var(--ink-soft); }
-.rekap-bar-track{ height:5px; border-radius:99px; background:var(--surface-soft); margin-top:5px; overflow:hidden; }
-.rekap-bar-fill{ height:100%; border-radius:99px; }
-
 .activity-item{ display:flex; gap:14px; padding:13px 0; border-bottom:1px solid var(--line); }
 .activity-item:last-child{ border-bottom:none; }
 .activity-date{
@@ -340,6 +299,15 @@ tbody tr:hover{ background:var(--surface-soft); }
 .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
 .bar-col .bar{ width:100%; max-width:34px; border-radius:8px 8px 4px 4px; background:var(--primary); }
 .bar-col .lbl{ font-size:11px; color:var(--ink-soft); font-weight:600; }
+
+.donut-chart{ width:150px; height:150px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:background .3s; }
+.donut-hole{ width:94px; height:94px; border-radius:50%; background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:var(--shadow); }
+.donut-hole .n{ font-size:22px; font-weight:800; color:var(--ink); line-height:1; }
+.donut-hole .l{ font-size:10.5px; color:var(--ink-soft); margin-top:3px; text-align:center; }
+.legend-row{ display:flex; align-items:center; gap:9px; font-size:13px; padding:5px 0; }
+.legend-dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.legend-row .name{ flex:1; color:var(--ink); }
+.legend-row .val{ color:var(--ink-soft); font-weight:700; font-size:12.5px; }
 
 .gallery-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px; }
 .gallery-card{ border-radius:16px; overflow:hidden; border:1px solid var(--line); background:#fff; }
@@ -570,10 +538,8 @@ tbody tr:hover{ background:var(--surface-soft); }
       </div>
       <div class="topbar-right">
         <div class="today-pill" id="todayPill"></div>
-        <span class="offline-pill" id="offlinePill" style="display:none;">Mode Luring (Offline)</span>
-        <button class="btn btn-primary btn-sm" id="btnInstallApp" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 3v13M7 11l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke-linecap="round"/></svg>
-          Pasang Aplikasi
+        <button class="icon-btn" id="installAppBtn" aria-label="Instal Aplikasi" title="Instal aplikasi ke perangkat" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M4 21h16"/></svg>
         </button>
         <button class="icon-btn" id="themeToggleBtn" aria-label="Ganti Tema" title="Ganti tampilan terang/gelap">
           <svg id="themeToggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -614,6 +580,17 @@ tbody tr:hover{ background:var(--surface-soft); }
 
         <div class="stat-grid" id="statGrid"></div>
 
+        <div class="panel" id="kelompokDistPanel">
+          <div class="panel-head">
+            <h3>Distribusi Siswa per Kelompok</h3>
+            <span class="hint">Sebaran siswa aktif saat ini</span>
+          </div>
+          <div style="display:flex;gap:30px;align-items:center;flex-wrap:wrap;">
+            <div class="donut-chart" id="kelompokDonut"></div>
+            <div id="kelompokDonutLegend" style="flex:1;min-width:220px;"></div>
+          </div>
+        </div>
+
         <div class="grid-2">
           <div>
             <div class="panel">
@@ -653,52 +630,6 @@ tbody tr:hover{ background:var(--surface-soft); }
           <div>
             <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">Rata-rata Kehadiran per Bulan</div>
             <div class="bars" id="yearlyAttChart" style="height:110px;"></div>
-          </div>
-        </div>
-
-        <div class="panel" id="rekapKehadiranPanel">
-          <div class="panel-head">
-            <h3>Rekap Kehadiran Siswa</h3>
-            <span class="hint" id="rekapKehadiranHint">Siswa paling rajin & paling sering tidak hadir</span>
-          </div>
-          <div class="field-row">
-            <div class="field" style="max-width:170px;">
-              <label>Jenis Periode</label>
-              <select id="rekapJenisPeriode">
-                <option value="bulan">Bulanan</option>
-                <option value="semester">Semester</option>
-                <option value="tahunajaran">Tahun Ajaran</option>
-              </select>
-            </div>
-            <div class="field" style="max-width:230px;">
-              <label>Periode</label>
-              <select id="rekapNilaiPeriode"></select>
-            </div>
-            <div class="field" style="max-width:200px;">
-              <label>Kelompok</label>
-              <select id="rekapKelompokFilter"><option value="">Semua Kelompok</option></select>
-            </div>
-            <div class="field" style="flex:0 0 auto;justify-content:flex-end;">
-              <label>&nbsp;</label>
-              <button class="btn btn-ghost btn-sm" id="btnExportRekapKehadiran">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 3v12M7 10l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke-linecap="round"/></svg>
-                Ekspor CSV
-              </button>
-            </div>
-          </div>
-          <div id="rekapKehadiranEmpty" class="empty-state" style="display:none;">
-            <div class="t">Belum ada data absensi pada periode ini</div>
-            <div>Coba pilih periode lain atau catat kehadiran terlebih dahulu di menu Absensi Harian.</div>
-          </div>
-          <div class="grid-2" id="rekapKehadiranBody" style="grid-template-columns:1fr 1fr;align-items:start;">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:var(--primary-dark);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;">🏆 Paling Rajin Hadir</div>
-              <div id="rekapRajinList"></div>
-            </div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;">⚠️ Paling Sering Tidak Hadir</div>
-              <div id="rekapAbsenList"></div>
-            </div>
           </div>
         </div>
       </section>
@@ -824,6 +755,13 @@ tbody tr:hover{ background:var(--surface-soft); }
           </div>
           <div class="stat-grid" id="absensiRekap" style="margin-bottom:0;"></div>
         </div>
+        <div class="panel" id="absensiAlpaPanel">
+          <div class="panel-head">
+            <h3>Siswa Tidak Hadir (Alpa)</h3>
+            <span class="hint">Kirim pengingat langsung ke WhatsApp orang tua/wali</span>
+          </div>
+          <div id="absensiAlpaList"></div>
+        </div>
       </section>
 
       <!-- PEMBAYARAN -->
@@ -856,8 +794,12 @@ tbody tr:hover{ background:var(--surface-soft); }
         <div class="panel" id="belumBayarPanel">
           <div class="panel-head">
             <h3>Siswa Belum Lunas Bulan Ini</h3>
-            <span class="hint">Kirim pengingat langsung ke WhatsApp orang tua/wali</span>
+            <button class="btn btn-ghost btn-sm" id="btnSalinNomorBelumBayar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+              Salin Semua Nomor
+            </button>
           </div>
+          <div style="font-size:12.5px;color:var(--ink-soft);margin:-8px 0 12px;">Kirim pengingat langsung ke WhatsApp orang tua/wali, satu per satu atau salin semua nomor untuk broadcast.</div>
           <div id="belumBayarList"></div>
         </div>
       </section>
@@ -888,17 +830,6 @@ tbody tr:hover{ background:var(--surface-soft); }
               </select>
             </div>
           </div>
-          <div class="field-row" style="align-items:flex-end;">
-            <div class="field" style="max-width:300px;">
-              <label>Tambah Kategori Penilaian Baru</label>
-              <input type="text" id="aspekBaruInput" placeholder="mis. Kemandirian, Bahasa Inggris, Hafalan...">
-            </div>
-            <button class="btn btn-ghost btn-sm" id="btnTambahAspek" style="margin-bottom:1px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-              Tambah Kategori
-            </button>
-          </div>
-          <div id="aspekKustomList" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;"></div>
           <div class="dev-grid" id="devGrid"></div>
           <div class="field" style="margin-top:16px;">
             <label>Catatan Guru</label>
@@ -988,6 +919,18 @@ tbody tr:hover{ background:var(--surface-soft); }
           </div>
         </div>
 
+        <div class="panel" id="kenaikanKelasPanel" style="max-width:560px;display:none;">
+          <div class="panel-head"><h3>Tahun Ajaran &amp; Kenaikan Kelas</h3></div>
+          <div style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px;">
+            Tahun ajaran berjalan: <strong id="kkTahunSekarang">—</strong><br>
+            Gunakan wizard ini setiap awal tahun ajaran baru untuk memindahkan siswa ke kelompok berikutnya sekaligus (atau menandai siswa yang lulus/keluar). Riwayat kelompok tiap siswa per tahun ajaran akan tersimpan otomatis.
+          </div>
+          <button class="btn btn-primary" id="btnMulaiKenaikanKelas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Mulai Tahun Ajaran Baru / Kenaikan Kelas
+          </button>
+        </div>
+
         <div class="panel" id="userMgmtPanel" style="display:none;">
           <div class="panel-head">
             <h3>Akun Pengguna &amp; Hak Akses</h3>
@@ -1050,6 +993,7 @@ tbody tr:hover{ background:var(--surface-soft); }
 /* ============================= DATA MODEL ============================= */
 const KEY = {
   profil:'sekolah-profil', siswa:'data-siswa', guru:'data-guru', kelompok:'data-kelompok',
+  riwayatKelas:'data-riwayat-kelas',
   absensi:'data-absensi', pembayaran:'data-pembayaran',
   perkembangan:'data-perkembangan', kegiatan:'data-kegiatan',
   pengumuman:'data-pengumuman', galeri:'data-galeri', users:'data-users'
@@ -1127,11 +1071,8 @@ function addDays(dateStr, n){ const d = new Date(dateStr); d.setDate(d.getDate()
 
 let DB = {
   profil: {nama:'SBB TK Ruhul Ukhuwwah', kepsek:'Ustadzah Halimah Nur, S.Pd', tahun:'2026/2027', alamat:'Jl. Ukhuwwah Islamiyah No. 1', logo:''},
-  siswa: [], guru: [], kelompok: [], absensi:{}, pembayaran:[], perkembangan:[], kegiatan:[], pengumuman:[], galeri:[], users:[], aspekKustom:[]
+  siswa: [], guru: [], kelompok: [], riwayatKelas: [], absensi:{}, pembayaran:[], perkembangan:[], kegiatan:[], pengumuman:[], galeri:[], users:[]
 };
-/* daftar lengkap kategori penilaian tumbuh kembang: 6 aspek baku (STPPA) + kategori
-   tambahan bebas yang didaftarkan sekolah (disimpan di app_settings, key 'aspek-kustom') */
-function getAllAspek(){ return [...ASPEK_PERKEMBANGAN, ...(DB.aspekKustom||[])]; }
 
 function userSeed(){
   return [
@@ -1157,6 +1098,10 @@ function userSeed(){
        dikelola bebas (tidak lagi terbatas hanya "A" & "B"); kolom
        "kelompok" pada siswa/guru menyimpan nilai teks yang cocok dengan
        kelompok.nama.
+     riwayat_kelas(id, siswa_id, tahun_ajaran, kelompok, tanggal) — arsip
+       riwayat kenaikan kelas: snapshot kelompok siswa pada setiap tahun
+       ajaran, dibuat otomatis saat admin menjalankan wizard "Tahun Ajaran
+       Baru / Kenaikan Kelas" di menu Pengaturan.
      absensi(id, tanggal, siswa_id → siswa.id, status)             UNIQUE(tanggal, siswa_id)
      pembayaran(id, siswa_id → siswa.id, bulan_idx, tahun, nominal, status, tanggal_bayar)
      perkembangan(id, siswa_id → siswa.id, semester, catatan)      UNIQUE(siswa_id, semester)
@@ -1321,6 +1266,14 @@ CREATE TABLE IF NOT EXISTS kelompok (
   urutan INTEGER DEFAULT 0,
   warna TEXT DEFAULT 'primary'
 );
+CREATE TABLE IF NOT EXISTS riwayat_kelas (
+  id TEXT PRIMARY KEY,
+  siswa_id TEXT NOT NULL REFERENCES siswa(id),
+  tahun_ajaran TEXT NOT NULL,
+  kelompok TEXT NOT NULL,
+  tanggal TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_riwayat_kelas_siswa ON riwayat_kelas(siswa_id);
 CREATE TABLE IF NOT EXISTS absensi (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   tanggal TEXT NOT NULL,
@@ -1425,6 +1378,16 @@ function setKelompokRows(list){
     [k.id, k.nama, k.urutan||0, k.warna||'primary']));
 }
 
+function getRiwayatKelasRows(){
+  return dbAll('SELECT id,siswa_id,tahun_ajaran,kelompok,tanggal FROM riwayat_kelas ORDER BY tanggal DESC')
+    .map(r=>({id:r.id, siswaId:r.siswa_id, tahunAjaran:r.tahun_ajaran, kelompok:r.kelompok, tanggal:r.tanggal||''}));
+}
+function setRiwayatKelasRows(list){
+  dbRun('DELETE FROM riwayat_kelas');
+  list.forEach(r=> dbRun('INSERT INTO riwayat_kelas (id,siswa_id,tahun_ajaran,kelompok,tanggal) VALUES (?,?,?,?,?)',
+    [r.id, r.siswaId, r.tahunAjaran, r.kelompok, r.tanggal||'']));
+}
+
 function getAbsensiObj(){
   const rows = dbAll('SELECT tanggal, siswa_id, status FROM absensi');
   const obj = {};
@@ -1521,6 +1484,7 @@ async function safeGet(key, fallback){
       case KEY.siswa: { const l = getSiswaRows(); return l.length ? l : fallback; }
       case KEY.guru: { const l = getGuruRows(); return l.length ? l : fallback; }
       case KEY.kelompok: { const l = getKelompokRows(); return l.length ? l : fallback; }
+      case KEY.riwayatKelas: return getRiwayatKelasRows();
       case KEY.absensi: return getAbsensiObj();
       case KEY.pembayaran: return getPembayaranRows();
       case KEY.perkembangan: return getPerkembanganRows();
@@ -1540,6 +1504,7 @@ async function safeSet(key, value){
       case KEY.siswa: setSiswaRows(value); break;
       case KEY.guru: setGuruRows(value); break;
       case KEY.kelompok: setKelompokRows(value); break;
+      case KEY.riwayatKelas: setRiwayatKelasRows(value); break;
       case KEY.absensi: setAbsensiObj(value); break;
       case KEY.pembayaran: setPembayaranRows(value); break;
       case KEY.perkembangan: setPerkembanganRows(value); break;
@@ -1583,6 +1548,7 @@ async function loadAll(){
   DB.siswa = await safeGet(KEY.siswa, seeds.siswaSeed);
   DB.guru = await safeGet(KEY.guru, seeds.guruSeed);
   DB.kelompok = await safeGet(KEY.kelompok, seeds.kelompokSeed);
+  DB.riwayatKelas = await safeGet(KEY.riwayatKelas, []);
   DB.absensi = await safeGet(KEY.absensi, {});
   DB.pembayaran = await safeGet(KEY.pembayaran, []);
   DB.perkembangan = await safeGet(KEY.perkembangan, []);
@@ -1590,7 +1556,6 @@ async function loadAll(){
   DB.pengumuman = await safeGet(KEY.pengumuman, seeds.pengumumanSeed);
   DB.galeri = await safeGet(KEY.galeri, []);
   DB.users = await safeGet(KEY.users, userSeed());
-  DB.aspekKustom = await safeGet('aspek-kustom', []);
   // persist seeds on first run
   await safeSet(KEY.siswa, DB.siswa);
   await safeSet(KEY.guru, DB.guru);
@@ -1710,13 +1675,34 @@ function renderDashboard(){
   const bulanIni = new Date().getMonth(), tahunIni = new Date().getFullYear();
   const bayarLunas = DB.pembayaran.filter(p=>p.bulanIdx===bulanIni && p.tahun===tahunIni && p.status==='Lunas').length;
 
+  // tren kehadiran vs kemarin
+  const kemarin = new Date(); kemarin.setDate(kemarin.getDate()-1);
+  const absKemarin = DB.absensi[kemarin.toISOString().slice(0,10)] || {};
+  const hadirKemarin = Object.values(absKemarin).filter(v=>v==='Hadir').length;
+  const pctHadirIni = totalSiswa ? Math.round((hadirHariIni/totalSiswa)*100) : 0;
+  const pctHadirKemarin = totalSiswa ? Math.round((hadirKemarin/totalSiswa)*100) : 0;
+
+  // tren SPP vs bulan lalu
+  let bulanLalu = bulanIni-1, tahunLalu = tahunIni;
+  if(bulanLalu<0){ bulanLalu = 11; tahunLalu--; }
+  const bayarLunasBulanLalu = DB.pembayaran.filter(p=>p.bulanIdx===bulanLalu && p.tahun===tahunLalu && p.status==='Lunas').length;
+  const pctSppIni = totalSiswa ? Math.round((bayarLunas/totalSiswa)*100) : 0;
+  const pctSppLalu = totalSiswa ? Math.round((bayarLunasBulanLalu/totalSiswa)*100) : 0;
+
+  function trendBadge(delta, bandingan){
+    if(!totalSiswa) return '';
+    if(delta===0) return `<span style="font-size:11px;color:var(--ink-soft);">— stabil ${bandingan}</span>`;
+    const up = delta>0;
+    return `<span style="font-size:11px;color:${up?'var(--primary)':'var(--danger)'};font-weight:700;">${up?'▲':'▼'} ${Math.abs(delta)}% ${up?'naik':'turun'} ${bandingan}</span>`;
+  }
+
   document.getElementById('heroGreeting').textContent = `${sapaan()} • ${new Date().toLocaleDateString('id-ID',{weekday:'long', day:'numeric', month:'long', year:'numeric'})}`;
 
   const stats = [
     {label:'Total Siswa Aktif', num:totalSiswa, icon:'users', bg:'var(--primary-tint)', color:'var(--primary-dark)'},
     {label:'Guru & Staff', num:totalGuru, icon:'badge', bg:'var(--sky-tint)', color:'#296D8A'},
-    {label:'Hadir Hari Ini', num:`${hadirHariIni}/${totalSiswa}`, icon:'check', bg:'var(--coral-tint)', color:'#B85D25'},
-    {label:'SPP Lunas Bulan Ini', num:`${bayarLunas}/${totalSiswa}`, icon:'wallet', bg:'var(--gold-tint)', color:'#8B6A16'},
+    {label:'Hadir Hari Ini', num:`${hadirHariIni}/${totalSiswa}`, icon:'check', bg:'var(--coral-tint)', color:'#B85D25', trend:trendBadge(pctHadirIni-pctHadirKemarin, 'vs kemarin')},
+    {label:'SPP Lunas Bulan Ini', num:`${bayarLunas}/${totalSiswa}`, icon:'wallet', bg:'var(--gold-tint)', color:'#8B6A16', trend:trendBadge(pctSppIni-pctSppLalu, 'vs bulan lalu')},
   ];
   document.getElementById('statGrid').innerHTML = stats.map(s=>`
     <div class="stat-card">
@@ -1725,7 +1711,10 @@ function renderDashboard(){
       </div>
       <div class="num">${s.num}</div>
       <div class="label">${s.label}</div>
+      ${s.trend ? `<div style="margin-top:5px;">${s.trend}</div>` : ''}
     </div>`).join('');
+
+  renderKelompokDistribusi();
 
   // 7-day attendance chart
   const days = [];
@@ -1764,7 +1753,6 @@ function renderDashboard(){
     </div>`).join('') : `<div class="empty-state"><div class="t">Belum ada pengumuman</div></div>`;
 
   renderYearlyStats();
-  renderAbsensiRekapDashboard();
 }
 function renderYearlyStats(){
   const yr = new Date().getFullYear();
@@ -1797,146 +1785,46 @@ function renderYearlyStats(){
       <div class="lbl">${BULAN_ID[i].slice(0,3)}</div>
     </div>`).join('');
 }
-
-/* ============================= REKAP KEHADIRAN (dashboard) =============================
-   Menghitung siswa paling rajin & paling sering tidak hadir, dapat difilter
-   per bulan, per semester (Ganjil: Jul-Des, Genap: Jan-Jun), atau per satu
-   tahun ajaran penuh (Jul-Jun). */
-function tahunAjaranStart(d){
-  // tahun ajaran baru dimulai bulan Juli (index 6)
-  return d.getMonth()>=6 ? d.getFullYear() : d.getFullYear()-1;
-}
-function defaultPeriodeValue(jenis, now){
-  now = now || new Date();
-  if(jenis==='bulan') return `${now.getMonth()}-${now.getFullYear()}`;
-  const curStart = tahunAjaranStart(now);
-  if(jenis==='semester'){
-    const smt = now.getMonth()>=6 ? 1 : 2;
-    return `${smt}-${curStart}`;
-  }
-  return `${curStart}`;
-}
-function getPeriodeRange(jenis, value){
-  if(jenis==='bulan'){
-    const [mIdx, yr] = value.split('-').map(Number);
-    const start = new Date(yr, mIdx, 1);
-    const end = new Date(yr, mIdx+1, 0);
-    return { start: start.toISOString().slice(0,10), end: end.toISOString().slice(0,10), label: `${BULAN_ID[mIdx]} ${yr}` };
-  }
-  if(jenis==='semester'){
-    const [smt, taStr] = value.split('-');
-    const ta = Number(taStr);
-    if(smt==='1') return { start:`${ta}-07-01`, end:`${ta}-12-31`, label:`Semester 1 (Ganjil) TA ${ta}/${ta+1}` };
-    return { start:`${ta+1}-01-01`, end:`${ta+1}-06-30`, label:`Semester 2 (Genap) TA ${ta}/${ta+1}` };
-  }
-  const ta = Number(value);
-  return { start:`${ta}-07-01`, end:`${ta+1}-06-30`, label:`Tahun Ajaran ${ta}/${ta+1}` };
-}
-function populateRekapPeriodeOptions(){
-  const jenisEl = document.getElementById('rekapJenisPeriode');
-  const sel = document.getElementById('rekapNilaiPeriode');
-  if(!jenisEl || !sel) return;
-  const jenis = jenisEl.value;
-  const cur = sel.value;
-  const now = new Date();
-  let opts = [];
-  if(jenis==='bulan'){
-    for(let i=0;i>=-14;i--){
-      const d = new Date(now.getFullYear(), now.getMonth()+i, 1);
-      opts.push({v:`${d.getMonth()}-${d.getFullYear()}`, t:`${BULAN_ID[d.getMonth()]} ${d.getFullYear()}`});
-    }
-  }else if(jenis==='semester'){
-    const curStart = tahunAjaranStart(now);
-    const list = [];
-    for(let ta=curStart-2; ta<=curStart; ta++){
-      list.push({v:`1-${ta}`, t:`Semester 1 (Ganjil) — TA ${ta}/${ta+1}`});
-      list.push({v:`2-${ta}`, t:`Semester 2 (Genap) — TA ${ta}/${ta+1}`});
-    }
-    opts = list.reverse();
-  }else{
-    const curStart = tahunAjaranStart(now);
-    for(let ta=curStart; ta>=curStart-3; ta--){
-      opts.push({v:`${ta}`, t:`Tahun Ajaran ${ta}/${ta+1}`});
-    }
-  }
-  sel.innerHTML = opts.map(o=>`<option value="${o.v}">${o.t}</option>`).join('');
-  const fallback = defaultPeriodeValue(jenis, now);
-  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value = cur;
-  else if([...sel.options].some(o=>o.value===fallback)) sel.value = fallback;
-}
-function computeAbsensiRekap(start, end, kelompokFilter){
-  const tanggalDalamRentang = Object.keys(DB.absensi).filter(t=> t>=start && t<=end).sort();
-  const siswaAktif = DB.siswa.filter(s=> s.status==='Aktif' && (!kelompokFilter || s.kelompok===kelompokFilter));
-  const perSiswa = siswaAktif.map(s=>{
-    let hadir=0, tercatat=0, tidakHadir=0;
-    tanggalDalamRentang.forEach(t=>{
-      const rec = DB.absensi[t];
-      if(rec && Object.prototype.hasOwnProperty.call(rec, s.id)){
-        tercatat++;
-        if(rec[s.id]==='Hadir') hadir++; else tidakHadir++;
-      }
-    });
-    return { siswa:s, hadir, tercatat, tidakHadir, pct: tercatat? Math.round((hadir/tercatat)*100) : 0 };
-  }).filter(r=> r.tercatat>0);
-  const rajin = [...perSiswa].sort((a,b)=> (b.pct-a.pct) || (b.hadir-a.hadir) || a.siswa.nama.localeCompare(b.siswa.nama)).slice(0,5);
-  const sering = [...perSiswa].filter(r=>r.tidakHadir>0)
-    .sort((a,b)=> (b.tidakHadir-a.tidakHadir) || (a.pct-b.pct) || a.siswa.nama.localeCompare(b.siswa.nama)).slice(0,5);
-  return { totalPertemuan: tanggalDalamRentang.length, rajin, sering, perSiswa };
-}
-function rekapRowHTML(r, i, color){
-  const s = r.siswa;
-  return `<div class="rekap-row">
-    <div class="rank">${i+1}</div>
-    <div class="avatar" style="background:${avatarColor(s.nama)}">${initials(s.nama)}</div>
-    <div class="row-name">
-      <div class="n">${s.nama}</div>
-      <div class="meta">${kelompokBadgeHTML(s.kelompok)} • ${r.hadir}/${r.tercatat} hadir</div>
-      <div class="rekap-bar-track"><div class="rekap-bar-fill" style="width:${r.pct}%;background:${color};"></div></div>
-    </div>
-    <div class="pct-wrap">
-      <div class="pct" style="color:${color};">${r.pct}%</div>
-      <div class="pct-sub">${r.tidakHadir} tdk hadir</div>
-    </div>
-  </div>`;
-}
-function renderAbsensiRekapDashboard(){
-  const jenisEl = document.getElementById('rekapJenisPeriode');
-  const nilaiEl = document.getElementById('rekapNilaiPeriode');
-  if(!jenisEl || !nilaiEl || !nilaiEl.value) return;
-  const range = getPeriodeRange(jenisEl.value, nilaiEl.value);
-  const kelompokFilter = document.getElementById('rekapKelompokFilter').value;
-  const { totalPertemuan, rajin, sering } = computeAbsensiRekap(range.start, range.end, kelompokFilter);
-  document.getElementById('rekapKehadiranHint').textContent = `${range.label} • ${totalPertemuan} pertemuan tercatat`;
-  const empty = document.getElementById('rekapKehadiranEmpty');
-  const body = document.getElementById('rekapKehadiranBody');
-  if(!totalPertemuan){
-    empty.style.display = 'block'; body.style.display = 'none';
+function renderKelompokDistribusi(){
+  const donut = document.getElementById('kelompokDonut');
+  const legend = document.getElementById('kelompokDonutLegend');
+  if(!donut || !legend) return;
+  const aktif = DB.siswa.filter(s=>s.status==='Aktif');
+  const total = aktif.length;
+  if(!total){
+    donut.style.background = 'var(--surface-soft)';
+    donut.innerHTML = `<div class="donut-hole"><div class="n">0</div><div class="l">Siswa Aktif</div></div>`;
+    legend.innerHTML = `<div class="empty-state"><div class="t">Belum ada siswa aktif</div></div>`;
     return;
   }
-  empty.style.display = 'none'; body.style.display = 'grid';
-  document.getElementById('rekapRajinList').innerHTML = rajin.length
-    ? rajin.map((r,i)=>rekapRowHTML(r,i,'var(--primary)')).join('')
-    : `<div class="empty-state"><div class="t">Belum ada data kehadiran</div></div>`;
-  document.getElementById('rekapAbsenList').innerHTML = sering.length
-    ? sering.map((r,i)=>rekapRowHTML(r,i,'var(--danger)')).join('')
-    : `<div class="empty-state"><div class="t">Tidak ada siswa dengan ketidakhadiran 🎉</div></div>`;
+  // hitung per kelompok resmi + kelompok "yatim" (nilai lama yang sudah tak terdaftar)
+  const knownNames = new Set(DB.kelompok.map(k=>k.nama));
+  const namaTerpakai = [...new Set(aktif.map(s=>s.kelompok))];
+  const urutanKelompok = kelompokListSorted().map(k=>k.nama);
+  namaTerpakai.sort((a,b)=>{
+    const ia = urutanKelompok.indexOf(a), ib = urutanKelompok.indexOf(b);
+    if(ia===-1 && ib===-1) return a.localeCompare(b);
+    if(ia===-1) return 1; if(ib===-1) return -1;
+    return ia-ib;
+  });
+  const counts = namaTerpakai.map(nama=>({nama, warna: kelompokWarna(nama), count: aktif.filter(s=>s.kelompok===nama).length}));
+
+  let acc = 0;
+  const segments = counts.map(c=>{
+    const pct = (c.count/total)*100;
+    const seg = `var(--kc-${c.warna}-dot) ${acc}% ${acc+pct}%`;
+    acc += pct;
+    return seg;
+  });
+  donut.style.background = `conic-gradient(${segments.join(', ')})`;
+  donut.innerHTML = `<div class="donut-hole"><div class="n">${total}</div><div class="l">Siswa Aktif</div></div>`;
+  legend.innerHTML = counts.map(c=>`
+    <div class="legend-row">
+      <span class="legend-dot" style="background:var(--kc-${c.warna}-dot);"></span>
+      <span class="name">${knownNames.has(c.nama) ? 'Kelompok '+c.nama : 'Kelompok '+c.nama+' (tidak terdaftar)'}</span>
+      <span class="val">${c.count} siswa • ${Math.round((c.count/total)*100)}%</span>
+    </div>`).join('');
 }
-document.getElementById('rekapJenisPeriode').addEventListener('change', ()=>{ populateRekapPeriodeOptions(); renderAbsensiRekapDashboard(); });
-document.getElementById('rekapNilaiPeriode').addEventListener('change', renderAbsensiRekapDashboard);
-document.getElementById('rekapKelompokFilter').addEventListener('change', renderAbsensiRekapDashboard);
-document.getElementById('btnExportRekapKehadiran').addEventListener('click', ()=>{
-  const jenisEl = document.getElementById('rekapJenisPeriode');
-  const nilaiEl = document.getElementById('rekapNilaiPeriode');
-  if(!nilaiEl.value){ toast('Pilih periode terlebih dahulu'); return; }
-  const range = getPeriodeRange(jenisEl.value, nilaiEl.value);
-  const kelompokFilter = document.getElementById('rekapKelompokFilter').value;
-  const { perSiswa } = computeAbsensiRekap(range.start, range.end, kelompokFilter);
-  if(!perSiswa.length){ toast('Tidak ada data untuk diekspor pada periode ini'); return; }
-  const sorted = [...perSiswa].sort((a,b)=> b.pct-a.pct);
-  const rows = [['Nama Siswa','Kelompok','Periode','Pertemuan Tercatat','Hadir','Tidak Hadir','Persentase Hadir (%)']];
-  sorted.forEach(r=> rows.push([r.siswa.nama, r.siswa.kelompok, range.label, r.tercatat, r.hadir, r.tidakHadir, r.pct]));
-  exportCSV(rows, `rekap-kehadiran-${range.label.replace(/[\/\s()]+/g,'-')}.csv`);
-});
 
 /* ============================= PORTAL ORANG TUA ============================= */
 function renderPortal(){
@@ -1987,7 +1875,7 @@ function renderPortal(){
           <div class="panel-head"><h3>Tumbuh Kembang Terbaru</h3><span class="hint">${dev?dev.semester:'Belum ada catatan'}</span></div>
           ${dev ? `
             <div class="dev-grid">
-              ${getAllAspek().map(a=>`
+              ${ASPEK_PERKEMBANGAN.map(a=>`
                 <div class="dev-aspect">
                   <div class="t">${a}</div>
                   <div style="font-weight:700;color:var(--primary-dark);font-size:13px;">${dev.aspek[a]||'-'} — ${LEVEL_LABEL[dev.aspek[a]]||'Belum dinilai'}</div>
@@ -2064,6 +1952,7 @@ function renderSiswa(){
       <td>
         <div style="display:flex;gap:6px;">
           <button class="btn btn-ghost btn-sm" onclick="editSiswa('${s.id}')">Ubah</button>
+          <button class="btn btn-ghost btn-sm" onclick="lihatRiwayatKelas('${s.id}')">Riwayat</button>
           <button class="btn btn-danger-ghost btn-sm" onclick="hapusSiswa('${s.id}')">Hapus</button>
         </div>
       </td>
@@ -2264,19 +2153,13 @@ function populateKelompokFilterSelects(){
     absSel.innerHTML = kelompokListSorted().map(k=>`<option value="${k.nama}">Kelompok ${k.nama}</option>`).join('');
     if([...absSel.options].some(o=>o.value===cur2)) absSel.value = cur2;
   }
-  const rekapSel = document.getElementById('rekapKelompokFilter');
-  if(rekapSel){
-    const cur3 = rekapSel.value;
-    rekapSel.innerHTML = `<option value="">Semua Kelompok</option>` + kelompokListSorted().map(k=>`<option value="${k.nama}">Kelompok ${k.nama}</option>`).join('');
-    if([...rekapSel.options].some(o=>o.value===cur3)) rekapSel.value = cur3;
-  }
 }
 function refreshKelompokDependentUI(){
   populateKelompokFilterSelects();
   if(currentPage==='siswa') renderSiswa();
   else if(currentPage==='guru') renderGuru();
   else if(currentPage==='absensi') renderAbsensiPage();
-  else if(currentPage==='dashboard') renderAbsensiRekapDashboard();
+  else if(currentPage==='dashboard') renderDashboard();
 }
 
 function renderKelompok(){
@@ -2363,6 +2246,113 @@ async function hapusKelompok(id){
   renderKelompok(); refreshKelompokDependentUI(); toast('Kelompok dihapus');
 }
 
+/* ============================= TAHUN AJARAN & KENAIKAN KELAS ============================= */
+const LULUS_VAL = '__LULUS__';
+function saranTahunAjaranBerikutnya(tahunSekarang){
+  const m = String(tahunSekarang||'').match(/(\d{4})\s*\/\s*(\d{4})/);
+  if(m){ const a = parseInt(m[1],10)+1, b = parseInt(m[2],10)+1; return `${a}/${b}`; }
+  const y = String(tahunSekarang||'').match(/\d{4}/);
+  if(y){ const n = parseInt(y[0],10)+1; return String(n); }
+  return '';
+}
+function kenaikanKelasModalHTML(){
+  const aktif = DB.siswa.filter(s=>s.status==='Aktif').slice().sort((a,b)=> (a.kelompok||'').localeCompare(b.kelompok||'') || a.nama.localeCompare(b.nama));
+  return `
+  <div class="modal-head"><h3>Tahun Ajaran Baru / Kenaikan Kelas</h3>
+    <button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="field-row"><div class="field"><label>Tahun Ajaran Baru</label><input id="kk_tahun" value="${saranTahunAjaranBerikutnya(DB.profil.tahun)}" placeholder="mis. 2027/2028"></div></div>
+  <div style="font-size:12.5px;color:var(--ink-soft);margin:2px 0 12px;">
+    Kelompok berjalan saat ini (<strong>${DB.profil.tahun||'-'}</strong>) akan otomatis diarsipkan ke riwayat sebelum diubah. Atur kelompok tujuan tiap siswa di bawah ini, atau pilih "Lulus / Keluar" untuk menonaktifkan siswa.
+  </div>
+  ${aktif.length ? `
+  <div style="max-height:340px;overflow-y:auto;border:1px solid var(--line);border-radius:12px;">
+    <table>
+      <thead><tr><th>Siswa</th><th>Kelompok Sekarang</th><th>Kelompok Tujuan</th></tr></thead>
+      <tbody>
+        ${aktif.map(s=>`
+        <tr>
+          <td>${s.nama}</td>
+          <td>${kelompokBadgeHTML(s.kelompok)}</td>
+          <td>
+            <select id="kk_sel_${s.id}" data-siswa="${s.id}">
+              ${kelompokOptionsHTML(s.kelompok)}
+              <option value="${LULUS_VAL}">🎓 Lulus / Keluar</option>
+            </select>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>` : `<div class="empty-state"><div class="t">Tidak ada siswa aktif untuk diproses</div></div>`}
+  <div class="modal-foot">
+    <button class="btn btn-ghost" onclick="closeModal()">Batal</button>
+    <button class="btn btn-primary" id="btnSimpanKenaikanKelas" ${aktif.length?'':'disabled'}>Proses Kenaikan Kelas</button>
+  </div>`;
+}
+document.getElementById('btnMulaiKenaikanKelas').addEventListener('click', ()=>{
+  if(!DB.siswa.some(s=>s.status==='Aktif')){ toast('Tidak ada siswa aktif untuk diproses'); return; }
+  openModal(kenaikanKelasModalHTML());
+  const btn = document.getElementById('btnSimpanKenaikanKelas');
+  if(btn) btn.addEventListener('click', simpanKenaikanKelas);
+});
+async function simpanKenaikanKelas(){
+  const tahunBaru = document.getElementById('kk_tahun').value.trim();
+  if(!tahunBaru){ toast('Tahun ajaran baru wajib diisi'); return; }
+  const tahunLama = DB.profil.tahun || '(belum diisi)';
+  if(!confirm(`Proses kenaikan kelas dari tahun ajaran ${tahunLama} ke ${tahunBaru}? Aksi ini akan mengubah kelompok/status banyak siswa sekaligus.`)) return;
+
+  const aktif = DB.siswa.filter(s=>s.status==='Aktif');
+  const tanggal = todayStr();
+  let jumlahNaik = 0, jumlahLulus = 0;
+
+  // hapus arsip lama untuk tahun ajaran yang sama (hindari duplikasi bila wizard dijalankan ulang)
+  DB.riwayatKelas = DB.riwayatKelas.filter(r => r.tahunAjaran !== tahunLama || !aktif.some(s=>s.id===r.siswaId));
+
+  aktif.forEach(s=>{
+    const sel = document.getElementById(`kk_sel_${s.id}`);
+    const tujuan = sel ? sel.value : s.kelompok;
+    // arsipkan kelompok SEBELUM diubah, ditandai dengan tahun ajaran yang baru saja berakhir
+    DB.riwayatKelas.push({id:uid(), siswaId:s.id, tahunAjaran:tahunLama, kelompok:s.kelompok, tanggal});
+    if(tujuan === LULUS_VAL){
+      s.status = 'Non-aktif';
+      jumlahLulus++;
+    }else{
+      s.kelompok = tujuan;
+      jumlahNaik++;
+    }
+  });
+
+  DB.profil = {...DB.profil, tahun: tahunBaru};
+  await Promise.all([
+    safeSet(KEY.siswa, DB.siswa),
+    safeSet(KEY.riwayatKelas, DB.riwayatKelas),
+    safeSet(KEY.profil, DB.profil)
+  ]);
+  closeModal();
+  applyProfil(); renderPengaturan(); refreshKelompokDependentUI();
+  toast(`Kenaikan kelas selesai — ${jumlahNaik} siswa naik kelas, ${jumlahLulus} siswa lulus/keluar`);
+}
+function riwayatKelasModalHTML(siswaId){
+  const s = DB.siswa.find(x=>x.id===siswaId);
+  if(!s) return '';
+  const riwayat = DB.riwayatKelas.filter(r=>r.siswaId===siswaId).sort((a,b)=> b.tahunAjaran.localeCompare(a.tahunAjaran));
+  return `
+  <div class="modal-head"><h3>Riwayat Kelas — ${s.nama}</h3>
+    <button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="att-row" style="justify-content:space-between;">
+    <div class="row-name"><div><div style="font-weight:700;">${DB.profil.tahun||'Tahun ajaran berjalan'}</div><div class="meta">Saat ini</div></div></div>
+    <div>${s.status==='Aktif' ? kelompokBadgeHTML(s.kelompok) : '<span class="badge badge-belum">🎓 Lulus / Non-aktif</span>'}</div>
+  </div>
+  ${riwayat.length ? riwayat.map(r=>`
+    <div class="att-row" style="justify-content:space-between;">
+      <div class="row-name"><div>${r.tahunAjaran}</div></div>
+      <div>${kelompokBadgeHTML(r.kelompok)}</div>
+    </div>`).join('') : `<div class="empty-state"><div class="t">Belum ada riwayat kenaikan kelas</div><div>Riwayat akan tercatat otomatis setiap kali wizard Tahun Ajaran Baru dijalankan.</div></div>`}
+  <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal()">Tutup</button></div>`;
+}
+function lihatRiwayatKelas(id){ openModal(riwayatKelasModalHTML(id)); }
+
 /* ============================= ABSENSI ============================= */
 let absensiDraft = {};
 function renderAbsensiPage(){
@@ -2432,6 +2422,26 @@ function renderAbsensiRekap(){
       <div class="num" style="color:${m.color}">${counts[m.k]}</div>
       <div class="label">${m.k}</div>
     </div>`).join('');
+  renderAbsensiAlpa(tgl, kel, siswaList, rec);
+}
+function renderAbsensiAlpa(tgl, kel, siswaList, rec){
+  const wrap = document.getElementById('absensiAlpaList');
+  if(!wrap) return;
+  const alpaList = siswaList.filter(s=> rec[s.id]==='Alpa');
+  if(!alpaList.length){ wrap.innerHTML = `<div class="empty-state"><div class="t">Tidak ada siswa Alpa 🎉</div></div>`; return; }
+  wrap.innerHTML = alpaList.map(s=>{
+    const msg = `Assalamu'alaikum Bpk/Ibu ${s.ortu}, kami informasikan bahwa ananda ${s.nama} tercatat tidak hadir (Alpa) di sekolah pada ${fmtTanggalPanjang(tgl)} tanpa keterangan. Mohon konfirmasinya. Jazakumullahu khairan — ${DB.profil.nama}.`;
+    return `<div class="att-row" style="justify-content:space-between;">
+      <div class="row-name">
+        <div class="avatar" style="background:${avatarColor(s.nama)}">${initials(s.nama)}</div>
+        <div><div>${s.nama}</div><div class="meta">${kelompokBadgeHTML(s.kelompok)} • ${s.ortu} • ${s.hp||'(no. HP belum diisi)'}</div></div>
+      </div>
+      ${s.hp ? `<a class="btn btn-primary btn-sm" target="_blank" rel="noopener" href="${waLink(s.hp, msg)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 21l1.5-4.5A8.5 8.5 0 1 1 8 20L3 21Z"/></svg>
+        Ingatkan
+      </a>` : `<span class="hint">No. HP belum diisi</span>`}
+    </div>`;
+  }).join('');
 }
 document.getElementById('btnExportAbsensi').addEventListener('click', ()=>{
   const tgl = document.getElementById('absensiTanggal').value || todayStr();
@@ -2473,9 +2483,11 @@ function renderPembayaran(){
   }).join('');
   renderBelumBayar(mIdx, yr);
 }
+let lastBelumBayarList = [];
 function renderBelumBayar(mIdx, yr){
   const paidIds = new Set(DB.pembayaran.filter(p=>p.bulanIdx===mIdx && p.tahun===yr && p.status==='Lunas').map(p=>p.siswaId));
   const belum = DB.siswa.filter(s=>s.status==='Aktif' && !paidIds.has(s.id));
+  lastBelumBayarList = belum;
   const wrap = document.getElementById('belumBayarList');
   if(!belum.length){ wrap.innerHTML = `<div class="empty-state"><div class="t">Semua siswa sudah lunas bulan ini 🎉</div></div>`; return; }
   wrap.innerHTML = belum.map(s=>{
@@ -2483,15 +2495,26 @@ function renderBelumBayar(mIdx, yr){
     return `<div class="att-row" style="justify-content:space-between;">
       <div class="row-name">
         <div class="avatar" style="background:${avatarColor(s.nama)}">${initials(s.nama)}</div>
-        <div><div>${s.nama}</div><div class="meta">Kelompok ${s.kelompok} • ${s.ortu} • ${s.hp}</div></div>
+        <div><div>${s.nama}</div><div class="meta">${kelompokBadgeHTML(s.kelompok)} • ${s.ortu} • ${s.hp||'(no. HP belum diisi)'}</div></div>
       </div>
-      <a class="btn btn-primary btn-sm" target="_blank" rel="noopener" href="${waLink(s.hp, msg)}">
+      ${s.hp ? `<a class="btn btn-primary btn-sm" target="_blank" rel="noopener" href="${waLink(s.hp, msg)}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 21l1.5-4.5A8.5 8.5 0 1 1 8 20L3 21Z"/></svg>
         Ingatkan
-      </a>
+      </a>` : `<span class="hint">No. HP belum diisi</span>`}
     </div>`;
   }).join('');
 }
+document.getElementById('btnSalinNomorBelumBayar').addEventListener('click', async ()=>{
+  const nomor = lastBelumBayarList.filter(s=>s.hp).map(s=>s.hp);
+  if(!nomor.length){ toast('Tidak ada nomor HP untuk disalin'); return; }
+  const teks = nomor.join(', ');
+  try{
+    await navigator.clipboard.writeText(teks);
+    toast(`${nomor.length} nomor HP disalin ke clipboard`);
+  }catch(e){
+    toast('Gagal menyalin — clipboard tidak tersedia di browser ini');
+  }
+});
 document.getElementById('btnExportPembayaran').addEventListener('click', ()=>{
   const [mIdx, yr] = document.getElementById('pembayaranBulan').value.split('-').map(Number);
   const list = DB.pembayaran.filter(p=>p.bulanIdx===mIdx && p.tahun===yr);
@@ -2557,54 +2580,15 @@ function populateSiswaSelects(){
 document.getElementById('perkembanganSiswa').addEventListener('change', renderPerkembanganForm);
 document.getElementById('perkembanganSemester').addEventListener('change', renderPerkembanganForm);
 
-/* ---------- kategori penilaian tumbuh kembang: kelola kategori tambahan ---------- */
-function renderAspekKustomList(){
-  const wrap = document.getElementById('aspekKustomList');
-  if(!wrap) return;
-  if(!DB.aspekKustom || !DB.aspekKustom.length){
-    wrap.innerHTML = `<span class="aspek-chip-empty">6 kategori baku (Nilai Agama & Moral, Fisik Motorik, Kognitif, Bahasa, Sosial Emosional, Seni) selalu tersedia. Tambahkan kategori lain di atas bila perlu.</span>`;
-    return;
-  }
-  wrap.innerHTML = DB.aspekKustom.map(a=>`
-    <span class="aspek-chip">${a}
-      <button type="button" title="Hapus kategori" onclick="hapusAspekKustom('${a.replace(/'/g,"\\'")}')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-    </span>`).join('');
-}
-document.getElementById('btnTambahAspek').addEventListener('click', async ()=>{
-  const input = document.getElementById('aspekBaruInput');
-  const nama = input.value.trim();
-  if(!nama){ toast('Isi nama kategori terlebih dahulu'); return; }
-  const semuaLower = getAllAspek().map(a=>a.toLowerCase());
-  if(semuaLower.includes(nama.toLowerCase())){ toast('Kategori tersebut sudah ada'); return; }
-  DB.aspekKustom = [...(DB.aspekKustom||[]), nama];
-  await safeSet('aspek-kustom', DB.aspekKustom);
-  input.value = '';
-  toast(`Kategori "${nama}" ditambahkan`);
-  renderPerkembanganForm();
-});
-document.getElementById('aspekBaruInput').addEventListener('keydown', e=>{
-  if(e.key==='Enter'){ e.preventDefault(); document.getElementById('btnTambahAspek').click(); }
-});
-async function hapusAspekKustom(nama){
-  if(!confirm(`Hapus kategori "${nama}"? Catatan nilai yang sudah tersimpan untuk kategori ini pada siswa akan tetap ada di rekaman lama, tapi tidak akan tampil lagi di formulir.`)) return;
-  DB.aspekKustom = (DB.aspekKustom||[]).filter(a=>a!==nama);
-  await safeSet('aspek-kustom', DB.aspekKustom);
-  toast('Kategori dihapus');
-  renderPerkembanganForm();
-}
-
 let devDraft = {};
 function renderPerkembanganForm(){
   const siswaId = document.getElementById('perkembanganSiswa').value;
   const semester = document.getElementById('perkembanganSemester').value;
-  renderAspekKustomList();
   if(!siswaId){ document.getElementById('devGrid').innerHTML=''; return; }
   const existing = DB.perkembangan.find(p=>p.siswaId===siswaId && p.semester===semester);
   devDraft = existing ? {...existing.aspek} : {};
   document.getElementById('devCatatan').value = existing ? existing.catatan : '';
-  document.getElementById('devGrid').innerHTML = getAllAspek().map(aspek=>{
+  document.getElementById('devGrid').innerHTML = ASPEK_PERKEMBANGAN.map(aspek=>{
     const val = devDraft[aspek] || 'MB';
     return `
     <div class="dev-aspect" data-aspek="${aspek}">
@@ -2643,7 +2627,7 @@ document.getElementById('btnCetakRapor').addEventListener('click', ()=>{
   const existing = DB.perkembangan.find(p=>p.siswaId===siswaId && p.semester===semester);
   const aspek = existing ? existing.aspek : devDraft;
   const catatan = existing ? existing.catatan : (document.getElementById('devCatatan').value||'');
-  const rows = getAllAspek().map(a=>{
+  const rows = ASPEK_PERKEMBANGAN.map(a=>{
     const lv = (aspek && aspek[a]) || 'MB';
     return `<tr><td>${a}</td><td style="text-align:center;font-weight:700;">${lv}</td><td>${LEVEL_LABEL[lv]}</td></tr>`;
   }).join('');
@@ -2867,6 +2851,8 @@ function renderPengaturan(){
   const isAdmin = currentUser && currentUser.role==='admin';
   document.getElementById('userMgmtPanel').style.display = isAdmin ? 'block' : 'none';
   document.getElementById('backupPanel').style.display = isAdmin ? 'block' : 'none';
+  document.getElementById('kenaikanKelasPanel').style.display = isAdmin ? 'block' : 'none';
+  document.getElementById('kkTahunSekarang').textContent = DB.profil.tahun || '—';
   renderUserTable();
 }
 document.getElementById('btnSimpanProfil').addEventListener('click', async ()=>{
@@ -3022,7 +3008,7 @@ document.getElementById('restoreUpload').addEventListener('change', (e)=>{
       DB = {...DB, ...incoming, galeri: restoredGaleri};
       await Promise.all([
         safeSet(KEY.profil, DB.profil), safeSet(KEY.siswa, DB.siswa), safeSet(KEY.guru, DB.guru),
-        safeSet(KEY.kelompok, DB.kelompok), safeSet(KEY.absensi, DB.absensi), safeSet(KEY.pembayaran, DB.pembayaran),
+        safeSet(KEY.kelompok, DB.kelompok), safeSet(KEY.riwayatKelas, DB.riwayatKelas||[]), safeSet(KEY.absensi, DB.absensi), safeSet(KEY.pembayaran, DB.pembayaran),
         safeSet(KEY.perkembangan, DB.perkembangan), safeSet(KEY.kegiatan, DB.kegiatan),
         safeSet(KEY.pengumuman, DB.pengumuman), safeSet(KEY.galeri, DB.galeri), safeSet(KEY.users, DB.users)
       ]);
@@ -3114,41 +3100,6 @@ document.getElementById('themeToggleBtn').addEventListener('click', async ()=>{
   await safeSet('ui-theme', next);
 });
 
-/* ============================= PWA: INSTALL, OFFLINE, SERVICE WORKER =============================
-   Catatan: Service Worker hanya bisa didaftarkan bila halaman diakses lewat
-   https:// atau http://localhost — browser memblokirnya untuk halaman yang
-   dibuka langsung dari file lokal (file://). Kode di bawah dibuat aman
-   (tidak memunculkan error) untuk kedua kondisi tersebut. */
-if('serviceWorker' in navigator && location.protocol.startsWith('http')){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(err=> console.warn('Gagal mendaftarkan Service Worker:', err));
-  });
-}
-let deferredInstallPrompt = null;
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  document.getElementById('btnInstallApp').style.display = 'inline-flex';
-});
-document.getElementById('btnInstallApp').addEventListener('click', async ()=>{
-  const btn = document.getElementById('btnInstallApp');
-  if(!deferredInstallPrompt){ toast('Aplikasi sudah terpasang atau perangkat/peramban ini belum mendukung pemasangan'); return; }
-  btn.style.display = 'none';
-  deferredInstallPrompt.prompt();
-  await deferredInstallPrompt.userChoice;
-  deferredInstallPrompt = null;
-});
-window.addEventListener('appinstalled', ()=>{
-  document.getElementById('btnInstallApp').style.display = 'none';
-  toast('Aplikasi berhasil dipasang di perangkat ini 🎉');
-});
-function updateOfflinePill(){
-  document.getElementById('offlinePill').style.display = navigator.onLine ? 'none' : 'flex';
-}
-window.addEventListener('online', updateOfflinePill);
-window.addEventListener('offline', updateOfflinePill);
-updateOfflinePill();
-
 /* ============================= LOGIN / SESI / ROLE ============================= */
 const SESSION_KEY = 'session-user-id';
 let currentUser = null;
@@ -3197,7 +3148,6 @@ async function startApp(){
   populateBulanSelect();
   populateSiswaSelects();
   populateKelompokFilterSelects();
-  populateRekapPeriodeOptions();
   applyProfil();
   updateUserChip();
   renderMenu();
@@ -3255,6 +3205,44 @@ async function init(){
   if(loginMark && profil.logo) loginMark.innerHTML = `<img src="${profil.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">`;
 }
 init();
+
+/* ============================= PWA: INSTAL APLIKASI & OFFLINE ============================= */
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('installAppBtn');
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+if(!isStandalone){
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    installBtn.style.display = 'inline-flex';
+  });
+  // Safari/iOS tidak mendukung beforeinstallprompt — tampilkan tombol dengan instruksi manual
+  if(isIOS) installBtn.style.display = 'inline-flex';
+}
+installBtn.addEventListener('click', async ()=>{
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const { outcome } = await deferredInstallPrompt.userChoice;
+    if(outcome === 'accepted') toast('Aplikasi sedang diinstal…');
+    deferredInstallPrompt = null;
+    installBtn.style.display = 'none';
+  }else if(isIOS){
+    alert('Untuk menginstal aplikasi ini di iPhone/iPad:\n\n1. Ketuk ikon Bagikan (kotak dengan panah ke atas) di Safari\n2. Pilih "Tambah ke Layar Utama" (Add to Home Screen)\n3. Ketuk "Tambah"');
+  }else{
+    toast('Instalasi belum tersedia di browser ini — coba buka lewat Chrome/Edge di Android atau desktop');
+  }
+});
+
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js').catch(err=>{
+      console.error('Pendaftaran service worker gagal', err);
+    });
+  });
+}
+
 </script>
 </body>
 </html>
