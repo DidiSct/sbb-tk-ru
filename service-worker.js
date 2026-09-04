@@ -9,7 +9,7 @@
    mengenali service worker sebagai "berbeda", langsung memicu update, dan
    otomatis membuang cache lama (lihat listener 'activate' di bawah). */
 
-const CACHE_NAME = 'si-tk-shell-v2';
+const CACHE_NAME = 'si-tk-shell-v3';
 const APP_SHELL = [
   './',
   './index.html',
