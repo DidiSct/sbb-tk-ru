@@ -31,6 +31,10 @@
   --sky:#4A93B5;
   --sky-tint:#E2EFF4;
   --danger:#C1553F;
+  --ink-primary:#123F34;
+  --ink-coral:#B85D25;
+  --ink-gold:#8B6A16;
+  --ink-sky:#296D8A;
   --radius:18px;
   --radius-sm:12px;
   --shadow:0 1px 2px rgba(30,43,39,.06), 0 8px 24px -12px rgba(30,43,39,.18);
@@ -210,13 +214,13 @@ tbody tr:last-child td{ border-bottom:none; }
 tbody tr:hover{ background:var(--surface-soft); }
 
 .badge{ display:inline-flex; align-items:center; padding:4px 10px; border-radius:99px; font-size:11.5px; font-weight:700; }
-.badge-a{ background:var(--coral-tint); color:#B85D25; }
-.badge-b{ background:var(--sky-tint); color:#296D8A; }
-.badge-lunas{ background:var(--primary-tint); color:var(--primary-dark); }
+.badge-a{ background:var(--coral-tint); color:var(--ink-coral); }
+.badge-b{ background:var(--sky-tint); color:var(--ink-sky); }
+.badge-lunas{ background:var(--primary-tint); color:var(--ink-primary); }
 .badge-belum{ background:#FBE7E1; color:var(--danger); }
-.badge-hadir{ background:var(--primary-tint); color:var(--primary-dark); }
-.badge-sakit{ background:var(--gold-tint); color:#8B6A16; }
-.badge-izin{ background:var(--sky-tint); color:#296D8A; }
+.badge-hadir{ background:var(--primary-tint); color:var(--ink-primary); }
+.badge-sakit{ background:var(--gold-tint); color:var(--ink-gold); }
+.badge-izin{ background:var(--sky-tint); color:var(--ink-sky); }
 .badge-alpa{ background:#FBE7E1; color:var(--danger); }
 
 .avatar{
@@ -262,16 +266,16 @@ tbody tr:hover{ background:var(--surface-soft); }
 
 .tabs{ display:flex; gap:6px; background:var(--surface-soft); padding:4px; border-radius:11px; width:fit-content; margin-bottom:18px; }
 .tab-btn{ border:none; background:transparent; padding:8px 15px; border-radius:9px; font-size:13px; font-weight:600; color:var(--ink-soft); cursor:pointer; }
-.tab-btn.active{ background:var(--surface); color:var(--primary-dark); box-shadow:var(--shadow); }
+.tab-btn.active{ background:var(--surface); color:var(--ink-primary); box-shadow:var(--shadow); }
 
 .att-list{ display:flex; flex-direction:column; gap:8px; }
 .att-row{ display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--line); border-radius:12px; }
 .att-row .row-name{ flex:1; }
 .att-options{ display:flex; gap:6px; }
 .att-opt{ border:1px solid var(--line); background:#fff; padding:6px 11px; border-radius:9px; font-size:12px; font-weight:700; cursor:pointer; color:var(--ink-soft); }
-.att-opt[data-v="Hadir"].sel{ background:var(--primary-tint); border-color:var(--primary); color:var(--primary-dark); }
-.att-opt[data-v="Sakit"].sel{ background:var(--gold-tint); border-color:var(--gold); color:#8B6A16; }
-.att-opt[data-v="Izin"].sel{ background:var(--sky-tint); border-color:var(--sky); color:#296D8A; }
+.att-opt[data-v="Hadir"].sel{ background:var(--primary-tint); border-color:var(--primary); color:var(--ink-primary); }
+.att-opt[data-v="Sakit"].sel{ background:var(--gold-tint); border-color:var(--gold); color:var(--ink-gold); }
+.att-opt[data-v="Izin"].sel{ background:var(--sky-tint); border-color:var(--sky); color:var(--ink-sky); }
 .att-opt[data-v="Alpa"].sel{ background:#FBE7E1; border-color:var(--danger); color:var(--danger); }
 
 .dev-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
@@ -284,7 +288,7 @@ tbody tr:hover{ background:var(--surface-soft); }
 .activity-item{ display:flex; gap:14px; padding:13px 0; border-bottom:1px solid var(--line); }
 .activity-item:last-child{ border-bottom:none; }
 .activity-date{
-  width:52px; flex-shrink:0; text-align:center; background:var(--coral-tint); border-radius:12px; padding:8px 0; color:#B85D25;
+  width:52px; flex-shrink:0; text-align:center; background:var(--coral-tint); border-radius:12px; padding:8px 0; color:var(--ink-coral);
 }
 .activity-date .d{ font-family:'Fraunces',serif; font-weight:700; font-size:19px; line-height:1; }
 .activity-date .m{ font-size:10.5px; font-weight:700; text-transform:uppercase; }
@@ -318,8 +322,8 @@ tbody tr:hover{ background:var(--surface-soft); }
 
 .class-tag-select{ display:flex; gap:8px; }
 .class-tag-select button{ flex:1; padding:9px; border-radius:10px; border:1px solid var(--line); background:#fff; font-weight:700; font-size:13px; cursor:pointer; color:var(--ink-soft); }
-.class-tag-select button.sel-a.sel{ background:var(--coral-tint); border-color:var(--coral); color:#B85D25; }
-.class-tag-select button.sel-b.sel{ background:var(--sky-tint); border-color:var(--sky); color:#296D8A; }
+.class-tag-select button.sel-a.sel{ background:var(--coral-tint); border-color:var(--coral); color:var(--ink-coral); }
+.class-tag-select button.sel-b.sel{ background:var(--sky-tint); border-color:var(--sky); color:var(--ink-sky); }
 
 @media (max-width:980px){
   .stat-grid{ grid-template-columns:repeat(2,1fr); }
@@ -374,7 +378,7 @@ tbody tr:hover{ background:var(--surface-soft); }
   flex:1; border:1px solid var(--line); background:#fffdf8; border-radius:11px;
   padding:9px 6px; font-size:11.5px; font-weight:700; color:var(--ink-soft); cursor:pointer;
 }
-.role-pick button.sel{ background:var(--primary-tint); border-color:var(--primary); color:var(--primary-dark); }
+.role-pick button.sel{ background:var(--primary-tint); border-color:var(--primary); color:var(--ink-primary); }
 
 /* ---------- topbar user / notif ---------- */
 .icon-btn{
@@ -464,6 +468,10 @@ tbody tr:hover{ background:var(--surface-soft); }
   --sky:#5AA6C7;
   --sky-tint:#1B2E38;
   --danger:#E2705B;
+  --ink-primary:#7FD9BE;
+  --ink-coral:#F0A876;
+  --ink-gold:#EBC978;
+  --ink-sky:#8FC4DE;
 
   --kc-primary-tint:#173630; --kc-primary-ink:#7FD9BE; --kc-primary-dot:#2E9C82;
   --kc-coral-tint:#3A2A1E; --kc-coral-ink:#F0A876; --kc-coral-dot:#EF8B4E;
@@ -1699,10 +1707,10 @@ function renderDashboard(){
   document.getElementById('heroGreeting').textContent = `${sapaan()} • ${new Date().toLocaleDateString('id-ID',{weekday:'long', day:'numeric', month:'long', year:'numeric'})}`;
 
   const stats = [
-    {label:'Total Siswa Aktif', num:totalSiswa, icon:'users', bg:'var(--primary-tint)', color:'var(--primary-dark)'},
-    {label:'Guru & Staff', num:totalGuru, icon:'badge', bg:'var(--sky-tint)', color:'#296D8A'},
-    {label:'Hadir Hari Ini', num:`${hadirHariIni}/${totalSiswa}`, icon:'check', bg:'var(--coral-tint)', color:'#B85D25', trend:trendBadge(pctHadirIni-pctHadirKemarin, 'vs kemarin')},
-    {label:'SPP Lunas Bulan Ini', num:`${bayarLunas}/${totalSiswa}`, icon:'wallet', bg:'var(--gold-tint)', color:'#8B6A16', trend:trendBadge(pctSppIni-pctSppLalu, 'vs bulan lalu')},
+    {label:'Total Siswa Aktif', num:totalSiswa, icon:'users', bg:'var(--primary-tint)', color:'var(--ink-primary)'},
+    {label:'Guru & Staff', num:totalGuru, icon:'badge', bg:'var(--sky-tint)', color:'var(--ink-sky)'},
+    {label:'Hadir Hari Ini', num:`${hadirHariIni}/${totalSiswa}`, icon:'check', bg:'var(--coral-tint)', color:'var(--ink-coral)', trend:trendBadge(pctHadirIni-pctHadirKemarin, 'vs kemarin')},
+    {label:'SPP Lunas Bulan Ini', num:`${bayarLunas}/${totalSiswa}`, icon:'wallet', bg:'var(--gold-tint)', color:'var(--ink-gold)', trend:trendBadge(pctSppIni-pctSppLalu, 'vs bulan lalu')},
   ];
   document.getElementById('statGrid').innerHTML = stats.map(s=>`
     <div class="stat-card">
@@ -1855,14 +1863,14 @@ function renderPortal(){
     </div>
     <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);">
       <div class="stat-card">
-        <div class="icon-badge" style="background:${absToday==='Hadir'?'var(--primary-tint)':'var(--gold-tint)'};color:${absToday==='Hadir'?'var(--primary-dark)':'#8B6A16'};">
+        <div class="icon-badge" style="background:${absToday==='Hadir'?'var(--primary-tint)':'var(--gold-tint)'};color:${absToday==='Hadir'?'var(--ink-primary)':'var(--ink-gold)'};">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">${ICONS.check}</svg>
         </div>
         <div class="num" style="font-size:19px;">${absToday}</div>
         <div class="label">Kehadiran Hari Ini</div>
       </div>
       <div class="stat-card">
-        <div class="icon-badge" style="background:${statusSpp==='Lunas'?'var(--primary-tint)':'#FBE7E1'};color:${statusSpp==='Lunas'?'var(--primary-dark)':'var(--danger)'};">
+        <div class="icon-badge" style="background:${statusSpp==='Lunas'?'var(--primary-tint)':'#FBE7E1'};color:${statusSpp==='Lunas'?'var(--ink-primary)':'var(--danger)'};">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">${ICONS.wallet}</svg>
         </div>
         <div class="num" style="font-size:19px;">${statusSpp}</div>
@@ -1878,7 +1886,7 @@ function renderPortal(){
               ${ASPEK_PERKEMBANGAN.map(a=>`
                 <div class="dev-aspect">
                   <div class="t">${a}</div>
-                  <div style="font-weight:700;color:var(--primary-dark);font-size:13px;">${dev.aspek[a]||'-'} — ${LEVEL_LABEL[dev.aspek[a]]||'Belum dinilai'}</div>
+                  <div style="font-weight:700;color:var(--ink-primary);font-size:13px;">${dev.aspek[a]||'-'} — ${LEVEL_LABEL[dev.aspek[a]]||'Belum dinilai'}</div>
                 </div>`).join('')}
             </div>
             <div style="margin-top:14px;font-size:13px;color:var(--ink-soft);line-height:1.6;"><b style="color:var(--ink);">Catatan Guru:</b><br>${dev.catatan ? dev.catatan.replace(/\n/g,'<br>') : '—'}</div>
@@ -2412,9 +2420,9 @@ function renderAbsensiRekap(){
   const counts = {Hadir:0,Sakit:0,Izin:0,Alpa:0};
   siswaList.forEach(s=>{ const v = rec[s.id]; if(v) counts[v] = (counts[v]||0)+1; });
   const meta = [
-    {k:'Hadir',bg:'var(--primary-tint)',color:'var(--primary-dark)'},
-    {k:'Sakit',bg:'var(--gold-tint)',color:'#8B6A16'},
-    {k:'Izin',bg:'var(--sky-tint)',color:'#296D8A'},
+    {k:'Hadir',bg:'var(--primary-tint)',color:'var(--ink-primary)'},
+    {k:'Sakit',bg:'var(--gold-tint)',color:'var(--ink-gold)'},
+    {k:'Izin',bg:'var(--sky-tint)',color:'var(--ink-sky)'},
     {k:'Alpa',bg:'#FBE7E1',color:'var(--danger)'},
   ];
   document.getElementById('absensiRekap').innerHTML = meta.map(m=>`
@@ -3046,7 +3054,7 @@ function computePaymentNotifications(){
   const tgl = now.getDate();
   if(tgl>=10 && belumBayar.length){
     items.unshift({
-      icon:'megaphone', bg:'var(--gold-tint)', color:'#8B6A16',
+      icon:'megaphone', bg:'var(--gold-tint)', color:'var(--ink-gold)',
       t:`Tenggat SPP telah lewat tanggal 10`,
       d:`${belumBayar.length} siswa belum menyelesaikan pembayaran bulan ${BULAN_ID[mIdx]}`
     });
