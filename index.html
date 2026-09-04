@@ -972,17 +972,17 @@ tbody tr:hover{ background:var(--surface-soft); }
             </label>
           </div>
           <div style="font-size:13px;color:var(--ink-soft);margin:18px 0 10px 0;line-height:1.6;border-top:1px solid var(--line);padding-top:16px;">
-            Aplikasi ini menyimpan data dalam <strong>database SQLite</strong> di perangkat ini. Unduh berkas <code>.sqlite</code> mentahnya untuk cadangan data terstruktur (bisa dibuka & di-query dengan aplikasi seperti DB Browser for SQLite). <strong>Catatan:</strong> foto galeri disimpan terpisah agar aplikasi tetap ringan &amp; cepat, sehingga <em>tidak</em> ikut termuat dalam berkas <code>.sqlite</code> — gunakan cadangan <code>.json</code> di atas jika ingin foto ikut tercadangkan.
+            Aplikasi ini menyimpan data dalam <strong>database SQLite</strong> di perangkat ini. Unduh berkas <code>.db</code> mentahnya untuk cadangan data terstruktur (bisa dibuka &amp; di-query dengan aplikasi seperti DB Browser for SQLite). Berkas akan tersimpan di dalam folder <code>data/</code> pada folder Downloads perangkat Anda <em>(berlaku di Chrome/Edge/Firefox di laptop &amp; Android; di Safari/iPhone berkas tetap tersimpan langsung di Downloads tanpa sub-folder, karena keterbatasan Safari)</em>. <strong>Catatan:</strong> foto galeri disimpan terpisah agar aplikasi tetap ringan &amp; cepat, sehingga <em>tidak</em> ikut termuat dalam berkas <code>.db</code> — gunakan cadangan <code>.json</code> di atas jika ingin foto ikut tercadangkan.
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
             <button class="btn btn-ghost" id="btnBackupSqlite">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h16" stroke-linecap="round"/></svg>
-              Unduh Database (.sqlite)
+              Unduh Database (.db)
             </button>
             <label class="upload-btn-label" style="border:1px solid var(--line);">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 16V4M7 9l5-5 5 5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 12 10)"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke-linecap="round"/></svg>
-              Pulihkan Database (.sqlite)
-              <input type="file" id="restoreSqliteUpload" accept=".sqlite,.db,application/x-sqlite3">
+              Pulihkan Database (.db)
+              <input type="file" id="restoreSqliteUpload" accept=".db,.sqlite,application/x-sqlite3">
             </label>
           </div>
         </div>
@@ -1531,17 +1531,20 @@ function downloadSqliteFile(){
   const blob = new Blob([bytes], {type:'application/x-sqlite3'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `database-${(DB.profil.nama||'sekolah').replace(/\s+/g,'-').toLowerCase()}-${todayStr()}.sqlite`;
+  // disimpan di dalam sub-folder "data" pada folder Downloads (didukung Chrome/Edge/Firefox
+  // desktop & Android — browser lain seperti Safari/iOS akan menyimpannya rata di Downloads
+  // dengan nama berkas yang sama, folder "data" tidak terbentuk otomatis di sana).
+  a.href = url; a.download = `data/database-${(DB.profil.nama||'sekolah').replace(/\s+/g,'-').toLowerCase()}-${todayStr()}.db`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  toast('Berkas database .sqlite diunduh');
+  toast('Berkas database .db diunduh (folder data/)');
 }
 async function importSqliteFile(file){
   const SQL = await sqlJsReady;
   const buf = new Uint8Array(await file.arrayBuffer());
   let testDB;
   try{ testDB = new SQL.Database(buf); testDB.exec('SELECT 1 FROM siswa LIMIT 1'); }
-  catch(e){ toast('Berkas .sqlite tidak valid atau bukan cadangan aplikasi ini'); return; }
+  catch(e){ toast('Berkas .db/.sqlite tidak valid atau bukan cadangan aplikasi ini'); return; }
   testDB.run(SCHEMA_SQL); // pastikan tabel yang mungkin belum ada (skema versi lama) ikut dibuat
   sqliteDB = testDB;
   await persistSqliteToIDB();
@@ -3034,7 +3037,7 @@ document.getElementById('btnBackupSqlite').addEventListener('click', downloadSql
 document.getElementById('restoreSqliteUpload').addEventListener('change', (e)=>{
   const file = e.target.files[0];
   if(!file) return;
-  if(!confirm('Memulihkan database akan MENIMPA seluruh data saat ini dengan isi berkas .sqlite yang dipilih. Lanjutkan?')){ e.target.value=''; return; }
+  if(!confirm('Memulihkan database akan MENIMPA seluruh data saat ini dengan isi berkas .db yang dipilih. Lanjutkan?')){ e.target.value=''; return; }
   importSqliteFile(file);
   e.target.value='';
 });
