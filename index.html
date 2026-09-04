@@ -1055,7 +1055,7 @@ function seedData(){
     {id:uid(), nama:'Salsabila Putri Ayu', jk:'P', tgl:'2019-10-11', kelompok:'B', ortu:'Ibu Wulan Sari', hp:'0819-2200-3345', alamat:'Jl. Teratai No. 21', status:'Aktif'}
   ];
   const guruSeed = [
-    {id:uid(), nama:'Ustadzah Halimah Nur, S.Pd', nip:'GTY-001', jabatan:'Kepala Sekolah', kelompok:'-', hp:'0812-0000-1111', email:'halimah@sbbruhulukhuwwah.sch.id'},
+    {id:uid(), nama:'Ustadzah Marlinah, S.Pd', nip:'GTY-001', jabatan:'Kepala Sekolah', kelompok:'-', hp:'0812-0000-1111', email:'halimah@sbbruhulukhuwwah.sch.id'},
     {id:uid(), nama:'Ustadzah Ratih Kumala, S.Pd.AUD', nip:'GTY-002', jabatan:'Guru Kelas', kelompok:'A', hp:'0813-2222-3333', email:'ratih@sbbruhulukhuwwah.sch.id'},
     {id:uid(), nama:'Ustadz Fajar Nugroho, S.Pd', nip:'GTY-003', jabatan:'Guru Kelas', kelompok:'B', hp:'0821-4444-5555', email:'fajar@sbbruhulukhuwwah.sch.id'},
     {id:uid(), nama:'Ustadzah Dewi Anggraini', nip:'STF-001', jabatan:'Tata Usaha', kelompok:'-', hp:'0857-6666-7777', email:'dewi@sbbruhulukhuwwah.sch.id'}
@@ -1078,13 +1078,13 @@ function seedData(){
 function addDays(dateStr, n){ const d = new Date(dateStr); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
 
 let DB = {
-  profil: {nama:'SBB TK Ruhul Ukhuwwah', kepsek:'Ustadzah Halimah Nur, S.Pd', tahun:'2026/2027', alamat:'Jl. Ukhuwwah Islamiyah No. 1', logo:''},
+  profil: {nama:'SBB TK Ruhul Ukhuwwah', kepsek:'Ustadzah Marlinah, S.Pd', tahun:'2026/2027', alamat:'Jl. Ukhuwwah Islamiyah No. 1', logo:''},
   siswa: [], guru: [], kelompok: [], riwayatKelas: [], absensi:{}, pembayaran:[], perkembangan:[], kegiatan:[], pengumuman:[], galeri:[], users:[]
 };
 
 function userSeed(){
   return [
-    {id:uid(), username:'admin', password:'admin123', nama:'Ustadzah Halimah Nur, S.Pd', role:'admin'},
+    {id:uid(), username:'admin', password:'admin123', nama:'Ustadzah Marlinah, S.Pd', role:'admin'},
     {id:uid(), username:'guru', password:'guru123', nama:'Ustadzah Ratih Kumala, S.Pd.AUD', role:'guru'},
     {id:uid(), username:'bendahara', password:'bendahara123', nama:'Ustadzah Dewi Anggraini', role:'bendahara'}
   ];
